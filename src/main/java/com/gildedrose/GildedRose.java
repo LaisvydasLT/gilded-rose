@@ -1,13 +1,27 @@
 package com.gildedrose;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+
 class GildedRose {
 
+	private static final Set<String> SPECIAL_ITEMS;
 	private static final String SULFURAS = "Sulfuras, Hand of Ragnaros";
 	private static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
 	private static final String AGED_BRIE = "Aged Brie";
 
 	private static final int MAX_QUALITY = 50;
 	private static final int MIN_QUALITY = 0;
+
+	static {
+		SPECIAL_ITEMS = new HashSet<String>();
+		SPECIAL_ITEMS.add(SULFURAS);
+		SPECIAL_ITEMS.add(BACKSTAGE_PASSES);
+		SPECIAL_ITEMS.add(AGED_BRIE);
+	}
 
 	Item[] items;
 
@@ -16,24 +30,13 @@ class GildedRose {
 	}
 
 	public void updateQuality() {
-		for (Item item : items) {
-			switch (item.name) {
-			case AGED_BRIE: {
-				updateAgedBrie(item);
-				break;
-			}
-			case BACKSTAGE_PASSES: {
-				updateBackstagePasses(item);
-				break;
-			}
-			case SULFURAS: {
-				break;
-			}
-			default: {
-				updateOtherItem(item);
-			}
-			}
-		}
+		List<Item> itemList = Arrays.asList(items);
+		CompletableFuture.runAsync(
+				() -> itemList.parallelStream().filter(i -> i.name.equals(AGED_BRIE)).forEach(i -> updateAgedBrie(i)));
+		CompletableFuture.runAsync(() -> itemList.parallelStream().filter(i -> i.name.equals(BACKSTAGE_PASSES))
+				.forEach(i -> updateBackstagePasses(i)));
+		CompletableFuture.runAsync(() -> itemList.parallelStream().filter(i -> !SPECIAL_ITEMS.contains(i.name))
+				.forEach(i -> updateOtherItem(i)));
 	}
 
 	private void updateAgedBrie(Item item) {
