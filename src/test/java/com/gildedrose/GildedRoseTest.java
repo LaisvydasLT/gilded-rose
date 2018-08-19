@@ -109,6 +109,24 @@ public class GildedRoseTest {
         assertEquals(startingQuality, app.items[0].quality);
         assertEquals(startingSellIn, app.items[0].sellIn);
     }
+    
+    @Test
+    public void updateQuality_Conjured_LoseTwoQuality() {
+        Item[] items = new Item[] { new Item("Conjured Mana Cake", 10, 20) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(18, app.items[0].quality);
+        assertEquals(9, app.items[0].sellIn);
+    }
+    
+    @Test
+    public void updateQuality_ConjuredSellInLessThanOne_LoseFourQuality() {
+        Item[] items = new Item[] { new Item("Conjured Mana Cake", 0, 20) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(16, app.items[0].quality);
+        assertEquals(-1, app.items[0].sellIn);
+    }
 
 }
 
