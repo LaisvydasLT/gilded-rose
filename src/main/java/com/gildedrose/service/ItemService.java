@@ -14,4 +14,6 @@ public interface ItemService {
 
     List<UpdatableItem> findAll();
 
+    Iterable<UpdatableItem> saveAll(Iterable<UpdatableItem> items);
+
 }

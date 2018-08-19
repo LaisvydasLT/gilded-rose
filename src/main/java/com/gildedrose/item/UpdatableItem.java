@@ -3,7 +3,6 @@ package com.gildedrose.item;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import java.util.UUID;
 
 @Document(indexName = "gildedrose", type = "items")
 public class UpdatableItem extends Item {
@@ -29,7 +28,6 @@ public class UpdatableItem extends Item {
 
 	public UpdatableItem(Item item) {
 		super(item.name, item.sellIn, item.quality);
-		id = UUID.randomUUID().toString();
 	}
 
 	public void updateQuality() {

@@ -19,6 +19,11 @@ public class ItemServiceImpl implements ItemService {
 	public UpdatableItem save(UpdatableItem item) {
 		return updatableItemRepository.save(item);
 	}
+	
+	@Override
+	public Iterable<UpdatableItem> saveAll(Iterable<UpdatableItem> items) {
+		return updatableItemRepository.save(items);
+	}
 
 	@Override
 	public void delete(UpdatableItem item) {

@@ -8,7 +8,7 @@ import com.gildedrose.factory.UpdatableItemFactory;
 import com.gildedrose.item.Item;
 import com.gildedrose.item.UpdatableItem;
 
-class GildedRose {
+public class GildedRose {
 
 	Item[] items;
 
@@ -22,6 +22,10 @@ class GildedRose {
 				.collect(Collectors.toList());
 		updatableItems.parallelStream().forEach(item -> item.updateQuality());
 		items = (Item[]) updatableItems.toArray(new Item[updatableItems.size()]);
+	}
+	
+	public Item[] getItems() {
+		return items;
 	}
 
 }
